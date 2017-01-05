@@ -17,10 +17,10 @@ namespace TwinTechs.Ios.Controls
 		{
 		}
 
-		// test
+		// We must have this method or else the Xamarin build system will remove code that it thinks is unused
+		// https://forums.xamarin.com/discussion/comment/198852/%23Comment_198852
 		public new static void Init()
 		{
-			var temp = DateTime.Now;
 		}
 
 		protected override void OnElementChanged(ElementChangedEventArgs<PageViewContainer> e)
