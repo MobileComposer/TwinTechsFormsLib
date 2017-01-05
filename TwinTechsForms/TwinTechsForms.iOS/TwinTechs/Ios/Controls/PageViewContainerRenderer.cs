@@ -17,6 +17,12 @@ namespace TwinTechs.Ios.Controls
 		{
 		}
 
+		// test
+		public new static void Init()
+		{
+			var temp = DateTime.Now;
+		}
+
 		protected override void OnElementChanged(ElementChangedEventArgs<PageViewContainer> e)
 		{
 			base.OnElementChanged(e);
