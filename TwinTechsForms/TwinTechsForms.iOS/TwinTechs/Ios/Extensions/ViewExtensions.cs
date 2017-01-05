@@ -29,6 +29,8 @@ namespace TwinTechs.Ios.Extensions
 				var assembly = typeof(EntryRenderer).Assembly;
 				var platformType = assembly.GetType ("Xamarin.Forms.Platform.iOS.Platform");
 				var method = platformType.GetMethod ("GetRenderer");
+
+				// 1/4: old way - this threw an exception
 				_getRendererDelegate = (GetRendererDelegate)method.CreateDelegate (typeof(GetRendererDelegate));
 			}
 
