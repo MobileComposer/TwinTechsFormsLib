@@ -56,7 +56,7 @@ namespace TwinTechs.Ios.Controls
 			Debug.WriteLine("vc.v is " + _viewController.View);
 
 			ParentViewController.AddChildViewController(_viewController); // add the ViewController as a child of the ParentPage
-			AddSubview(_viewController.View); // add the new view to this UIView
+			AddSubview(_viewController.View); // add the new view as a nested view of this UIView
 
 			_viewController.View.Frame = Bounds; // reassign the frame to match the bounds of this UIView
 			_viewController.DidMoveToParentViewController(ParentViewController);

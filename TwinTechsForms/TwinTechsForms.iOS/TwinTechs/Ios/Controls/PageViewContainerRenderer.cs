@@ -38,43 +38,69 @@ namespace TwinTechs.Ios.Controls
 			}
 		}
 
-		Page _initializedPage;
-
-		void ChangePage(Page page)
+		protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			if (page != null)
+			base.OnElementPropertyChanged(sender, e);
+			if (e.PropertyName == "Content" || e.PropertyName == "Renderer")
 			{
-				page.Parent = Element.GetParentPage();
+				// original line
+				//Device.BeginInvokeOnMainThread(() => ChangePage(Element != null ? Element.Content : null));
 
-				// 1/4: old way - don't use this
-				//var pageRenderer = page.GetRenderer ();
-				var pageRenderer = Platform.GetRenderer(page);
-
-				UIViewController viewController = null;
-				if (pageRenderer != null && pageRenderer.ViewController != null)
+				// Don't bother to chage the page if the PVC Content property doesn't have a page in it
+				if (Element?.Content != null)
 				{
-					viewController = pageRenderer.ViewController;
-				}
-				else
-				{
-					viewController = page.CreateViewController();
-				}
-				var parentPage = Element.GetParentPage();
+					//ChangePage(Element.Content);
 
-				//var renderer = parentPage.GetRenderer ();
-				var renderer = Platform.GetRenderer(parentPage);
+					// We must call this when Element.Content is a NavigationPage otherwise Platform.GetRenderer(parentPage) will return null in ChangePage()
+					Device.BeginInvokeOnMainThread(() => ChangePage(Element.Content));
+				}
+			}
+		}
 
-				Control.ParentViewController = renderer.ViewController;
-				Control.ViewController = viewController;
-				_initializedPage = page;
+		Page _initializedPage; // is this necessary at all?
+
+		void ChangePage(Page newPageToDisplay)
+		{
+			//if (newPageToDisplay != null)
+			//{
+
+			newPageToDisplay.Parent = Element.GetParentPage(); // find a Parent for this homeless page
+
+			// 1/4: old way - don't use this
+			//var pageRenderer = newPageToDisplay.GetRenderer();
+			var pageRenderer = Platform.GetRenderer(newPageToDisplay); // this seems strange. Page hasn't been rendered yet, so this will always be null here
+
+			UIViewController viewController = null;
+			if (pageRenderer != null && pageRenderer.ViewController != null)
+			{
+				// this is hit when navigating back from the PageInPageSample page
+				viewController = pageRenderer.ViewController;
 			}
 			else
 			{
-				if (Control != null)
-				{
-					Control.ViewController = null;
-				}
+				viewController = newPageToDisplay.CreateViewController();
 			}
+
+			// this returns PageInPageSample again
+			var parentPage = Element.GetParentPage(); // this is the only one that is needed, not the one above
+
+			//var renderer = parentPage.GetRenderer ();
+			var renderer = Platform.GetRenderer(parentPage);
+
+			// set properties of the ViewControllerContainer
+			Control.ParentViewController = renderer.ViewController;
+			Control.ViewController = viewController; // there is some logic here that happens when this is set
+
+			_initializedPage = newPageToDisplay; // not sure why they're doing this
+
+			//}
+			//else
+			//{
+			//	if (Control != null) //this seems unnecessary.
+			//	{
+			//		Control.ViewController = null;
+			//	}
+			//}
 		}
 
 		public override void LayoutSubviews()
@@ -88,14 +114,6 @@ namespace TwinTechs.Ios.Controls
 			}
 		}
 
-		protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged(sender, e);
-			if (e.PropertyName == "Content" || e.PropertyName == "Renderer")
-			{
-				Device.BeginInvokeOnMainThread(() => ChangePage(Element != null ? Element.Content : null));
-			}
-		}
 
 	}
 }
