@@ -24,34 +24,40 @@ namespace TwinTechs.Ios.Controls
 
 		UIViewController _viewController;
 
-		public UIViewController ViewController {
-			get{ return _viewController; }
-			set {
-				if (_viewController != null) {
-					RemoveCurrentViewController ();
+
+		// this prop handles the adding and removing of the ViewController to the Parent, and the View as a subview of this UIView
+		public UIViewController ViewController
+		{
+			get { return _viewController; }
+			set
+			{
+				if (_viewController != null)
+				{
+					RemoveCurrentViewController();
 				}
 				_viewController = value;
 
-				if (_viewController != null) {
-					
-					AddViewController ();
+				if (_viewController != null)
+				{
+					AddViewController();
 				}
 			}
 		}
 
-		void AddViewController ()
+		void AddViewController()
 		{
-			if (ParentViewController == null) {
-				throw new Exception ("No Parent View controller was found");
+			if (ParentViewController == null)
+			{
+				throw new Exception("No Parent View controller was found");
 			}
 
-			Debug.WriteLine ("vc.v is " + _viewController.View);
+			Debug.WriteLine("vc.v is " + _viewController.View);
 
-			ParentViewController.AddChildViewController (_viewController);
-			AddSubview (_viewController.View);
+			ParentViewController.AddChildViewController(_viewController); // add the ViewController as a child of the ParentPage
+			AddSubview(_viewController.View); // add the new view to this UIView
 
-			_viewController.View.Frame = Bounds;
-			_viewController.DidMoveToParentViewController (ParentViewController);
+			_viewController.View.Frame = Bounds; // reassign the frame to match the bounds of this UIView
+			_viewController.DidMoveToParentViewController(ParentViewController);
 
 		}
 
