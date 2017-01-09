@@ -65,30 +65,34 @@ namespace TwinTechs.Ios.Controls
 
 		#region lifecycle
 
-		public override void LayoutSubviews ()
+		public override void LayoutSubviews()
 		{
-			base.LayoutSubviews ();
+			base.LayoutSubviews();
+
 			//hack to fix sizing of children when changing orientation
-			if (ViewController != null && ViewController.View.Subviews.Length > 0) {
-				foreach (UIView view in ViewController.View.Subviews) {
+			if (ViewController != null && ViewController.View.Subviews.Length > 0)
+			{
+				foreach (UIView view in ViewController.View.Subviews)
+				{
 					view.Frame = Bounds;
 				}
 			}
-//			if (ViewController != null) {
-//				ViewController.View.Frame = Bounds;
-//			}
+			//			if (ViewController != null) {
+			//				ViewController.View.Frame = Bounds;
+			//			}
 		}
 
 		#endregion
 
 		#region private impl
 
-		void RemoveCurrentViewController ()
+		void RemoveCurrentViewController()
 		{
-			if (ViewController != null) {
-				ViewController.WillMoveToParentViewController (null);
-				ViewController.View.RemoveFromSuperview ();
-				ViewController.RemoveFromParentViewController ();
+			if (ViewController != null) // TODO: use field instead
+			{
+				ViewController.WillMoveToParentViewController(null); // Called just before the view controller is added or removed from a container view controller.
+				ViewController.View.RemoveFromSuperview();
+				ViewController.RemoveFromParentViewController();
 			}
 		}
 
