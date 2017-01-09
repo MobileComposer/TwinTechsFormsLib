@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <ContentPage
 	xmlns="http://xamarin.com/schemas/2014/forms"
@@ -36,7 +36,7 @@
 				Text="Third"
 				Clicked="OnPage3" />
 
-					<Button
+			<Button
 				Text="reuse pages on"
 				Clicked="OnToggleReuse" />
 
