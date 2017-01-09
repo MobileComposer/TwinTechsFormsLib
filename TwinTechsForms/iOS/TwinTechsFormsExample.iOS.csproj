@@ -27,6 +27,7 @@
     <MtouchI18n>
     </MtouchI18n>
     <LangVersion>6</LangVersion>
+    <MtouchExtraArgs>-gcc_flags "-force_load /Applications/Reveal.app/Contents/SharedSupport/iOS-Libraries/Reveal.framework/Versions/A/Reveal -ObjC -framework QuartzCore -framework CFNetwork"</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
