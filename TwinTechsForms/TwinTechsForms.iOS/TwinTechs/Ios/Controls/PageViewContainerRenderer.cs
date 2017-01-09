@@ -79,6 +79,7 @@ namespace TwinTechs.Ios.Controls
 		public override void LayoutSubviews()
 		{
 			base.LayoutSubviews();
+
 			var page = Element != null ? Element.Content : null;
 			if (page != null)
 			{
