@@ -10,12 +10,14 @@ namespace TwinTechs.Ios.Controls
 {
 	public class ViewControllerContainer : UIView
 	{
-		public ViewControllerContainer (CGRect frame) : base (frame)
+		//public ViewControllerContainer (CGRect frame) : base (frame) // TODO: this seems unnecessary. Frame is always 0,0 0,0 here
+		public ViewControllerContainer()
 		{
-			BackgroundColor = Color.Transparent.ToUIColor ();
+			BackgroundColor = Color.Transparent.ToUIColor();
 		}
 
-		public UIViewController ParentViewController {
+		public UIViewController ParentViewController
+		{
 			get;
 			set;
 		}
