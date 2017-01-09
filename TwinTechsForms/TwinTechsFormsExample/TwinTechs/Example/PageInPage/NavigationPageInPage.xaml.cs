@@ -19,8 +19,10 @@ namespace TwinTechs.Example.PageInPage
 			InitializeComponent ();
 			_rootPage = CreatePage (Color.Red);
 			_navigationPage = new NavigationPage (_rootPage);
-			PageContainer.Content = _navigationPage;
 
+			// this is the difference between PageInPageSample and this page.
+			// Here the Content prop is being set in the ctor
+			PageContainer.Content = _navigationPage;
 		}
 
 		ContentPage CreatePage (Color backgroundColor)
