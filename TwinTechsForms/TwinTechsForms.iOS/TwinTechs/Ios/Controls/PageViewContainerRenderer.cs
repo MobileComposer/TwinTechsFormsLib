@@ -27,7 +27,7 @@ namespace TwinTechs.Ios.Controls
 
 			if (Control != null)
 			{
-				Control.ViewController = null;
+				Control.ViewController = null; // TODO: this seems unnecessary. Control.ViewController is already null
 			}
 
 			if (e.NewElement != null)
