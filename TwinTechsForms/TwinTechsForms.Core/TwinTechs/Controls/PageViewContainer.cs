@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace TwinTechs.Controls
 {
-	//specialized class for showing a page within a page
+	//specialized class for showing a page within a view
 	public class PageViewContainer : View
 	{
 		public PageViewContainer ()
