@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -55,6 +56,14 @@ namespace TwinTechsFormsExample.UWP
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
+
+                var rendererAssemblies = new[]
+                {
+                    typeof(TwinTechsForms.UWP.Controls.PageViewContainerRenderer).GetTypeInfo().Assembly
+                };
+
+                // Then call Init with these assembiles
+                Xamarin.Forms.Forms.Init(e, rendererAssemblies);
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

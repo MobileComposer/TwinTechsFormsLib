@@ -16,17 +16,9 @@ namespace TwinTechs.Ios.Controls
 			BackgroundColor = Color.Transparent.ToUIColor();
 		}
 
-		public UIViewController ParentViewController
-		{
-			get;
-			set;
-		}
+		public UIViewController ParentViewController { get; set; }
 
-		#region properties
-
-		UIViewController _viewController;
-
-
+        UIViewController _viewController;
 		// this prop handles the adding and removing of the ViewController to the Parent, and the View as a subview of this UIView
 		public UIViewController ViewController
 		{
@@ -49,9 +41,7 @@ namespace TwinTechs.Ios.Controls
 		void AddViewController()
 		{
 			if (ParentViewController == null)
-			{
 				throw new Exception("No Parent View controller was found");
-			}
 
 			Debug.WriteLine("vc.v is " + _viewController.View);
 
@@ -72,8 +62,6 @@ namespace TwinTechs.Ios.Controls
                 ViewController.RemoveFromParentViewController();
             }
         }
-
-        #endregion
 
         #region lifecycle
 
