@@ -63,11 +63,21 @@ namespace TwinTechs.Ios.Controls
 
 		}
 
-		#endregion
+        void RemoveCurrentViewController()
+        {
+            if (ViewController != null) // TODO: use field instead
+            {
+                ViewController.WillMoveToParentViewController(null); // Called just before the view controller is added or removed from a container view controller.
+                ViewController.View.RemoveFromSuperview();
+                ViewController.RemoveFromParentViewController();
+            }
+        }
 
-		#region lifecycle
+        #endregion
 
-		public override void LayoutSubviews()
+        #region lifecycle
+
+        public override void LayoutSubviews()
 		{
 			base.LayoutSubviews();
 
@@ -82,20 +92,6 @@ namespace TwinTechs.Ios.Controls
 			//			if (ViewController != null) {
 			//				ViewController.View.Frame = Bounds;
 			//			}
-		}
-
-		#endregion
-
-		#region private impl
-
-		void RemoveCurrentViewController()
-		{
-			if (ViewController != null) // TODO: use field instead
-			{
-				ViewController.WillMoveToParentViewController(null); // Called just before the view controller is added or removed from a container view controller.
-				ViewController.View.RemoveFromSuperview();
-				ViewController.RemoveFromParentViewController();
-			}
 		}
 
 		#endregion

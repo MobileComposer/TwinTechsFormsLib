@@ -13,11 +13,9 @@ namespace TwinTechs.Ios.Controls
 {
 	public class PageViewContainerRenderer : ViewRenderer<PageViewContainer, ViewControllerContainer>
 	{
-		public PageViewContainerRenderer()
-		{
-		}
+		public PageViewContainerRenderer() { }
 
-		// We must have this method or else the Xamarin build system will remove code that it thinks is unused
+		// We must have this method or else the Xamarin build system will remove code it thinks is unused, this renderer
 		// https://forums.xamarin.com/discussion/comment/198852/%23Comment_198852
 		public new static void Init() { }
 
@@ -68,7 +66,7 @@ namespace TwinTechs.Ios.Controls
 
 			// 1/4: old way - don't use this
 			//var pageRenderer = newPageToDisplay.GetRenderer();
-			var pageRenderer = Platform.GetRenderer(newPageToDisplay); // this seems strange. Page hasn't been rendered yet, so this will always be null here
+			var pageRenderer = Platform.GetRenderer(newPageToDisplay); // TODO: this seems strange. Page hasn't been rendered yet, so this will always be null here
 
 			UIViewController viewController = null;
 			if (pageRenderer != null && pageRenderer.ViewController != null)
@@ -82,7 +80,7 @@ namespace TwinTechs.Ios.Controls
 			}
 
 			// this returns PageInPageSample again
-			var parentPage = Element.GetParentPage(); // this is the only one that is needed, not the one above
+			var parentPage = Element.GetParentPage(); // TODO: Is this the only one that is needed?
 
 			//var renderer = parentPage.GetRenderer ();
 			var renderer = Platform.GetRenderer(parentPage);

@@ -3,19 +3,18 @@ using Xamarin.Forms;
 
 namespace TwinTechs.Controls
 {
-	//specialized class for showing a page within a view
-	public class PageViewContainer : View
-	{
-		public PageViewContainer ()
-		{
-		}
+    //specialized class for showing a page within a view
+    public class PageViewContainer : View
+    {
+        public PageViewContainer() { }
 
-		public static readonly BindableProperty ContentProperty = BindableProperty.Create<PageViewContainer,Page> (s => s.Content, null);
+        public static readonly BindableProperty ContentProperty = BindableProperty.Create<PageViewContainer, Page>(s => s.Content, null);
 
-		public Page Content {
-			get{ return (Page)GetValue (ContentProperty); }
-			set{ SetValue (ContentProperty, value); }
-		}
-	}
+        public Page Content
+        {
+            get { return (Page)GetValue(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
+        }
+    }
 }
 
