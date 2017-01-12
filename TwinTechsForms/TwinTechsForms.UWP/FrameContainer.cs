@@ -11,37 +11,48 @@ using Windows.UI.Xaml.Media;
 
 namespace TwinTechsForms.UWP
 {
-    public class FrameContainer : Page //FrameworkElement
+    public class FrameworkElementContainer : Page //FrameworkElement
     {
-        public FrameContainer()
+        public FrameworkElementContainer()
         {
             Background = new SolidColorBrush(Colors.Transparent);
         }
 
-        public Frame ParentFrame { get; set; }
+        public FrameworkElement ParentFrameworkElement { get; set; }
 
-        private Frame _frame;
+        private Frame _pageFrame;
         public Frame PageFrame
         {
-            get { return _frame; }
+            get { return _pageFrame; }
 
             set
             {
-                _frame = value;
+                _pageFrame = value;
 
-                if (_frame != null)
+                if (_pageFrame != null)
                     AddFrame();
             }
         }
 
         private void AddFrame()
         {
-            if (ParentFrame == null)
+            if (ParentFrameworkElement == null)
                 throw new Exception("No parent frame was found");
 
-            Debug.WriteLine("Frame.CurrentSourcePageType is " + _frame.CurrentSourcePageType);
+            Debug.WriteLine("Frame.CurrentSourcePageType is " + _pageFrame.CurrentSourcePageType);
 
+            //ParentFrameworkElement.Child
 
+            try
+            {
+                var container = new Canvas { Style = (Windows.UI.Xaml.Style)Windows.UI.Xaml.Application.Current.Resources["RootContainerStyle"] };
+                _pageFrame.Content = container;
+                container.Children.Add(ParentFrameworkElement);  // No installed components were detected. Element is already the child of another element.
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
 

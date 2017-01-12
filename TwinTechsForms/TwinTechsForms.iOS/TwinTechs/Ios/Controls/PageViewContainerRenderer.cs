@@ -83,10 +83,10 @@ namespace TwinTechs.Ios.Controls
 			var parentPage = Element.GetParentPage(); // TODO: Is this the only one that is needed?
 
 			//var renderer = parentPage.GetRenderer ();
-			var renderer = Platform.GetRenderer(parentPage);
+			var parentPageRenderer = Platform.GetRenderer(parentPage);
 
 			// set properties of the ViewControllerContainer
-			Control.ParentViewController = renderer.ViewController;
+			Control.ParentViewController = parentPageRenderer.ViewController;
 			Control.ViewController = viewController; // there is some logic here that happens when this is set
 
 			_initializedPage = newPageToDisplay; // not sure why they're doing this

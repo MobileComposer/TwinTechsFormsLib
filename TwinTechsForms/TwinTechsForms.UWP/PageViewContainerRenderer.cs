@@ -15,7 +15,7 @@ using Windows.UI.Xaml;
 [assembly: ExportRenderer(typeof(PageViewContainer), typeof(PageViewContainerRenderer))]
 namespace TwinTechsForms.UWP.Controls
 {
-    public class PageViewContainerRenderer : ViewRenderer<PageViewContainer, FrameContainer>
+    public class PageViewContainerRenderer : ViewRenderer<PageViewContainer, FrameworkElementContainer>
     {
         public PageViewContainerRenderer() { }
 
@@ -25,7 +25,7 @@ namespace TwinTechsForms.UWP.Controls
         {
             base.OnElementChanged(e);
 
-            var container = new FrameContainer();
+            var container = new FrameworkElementContainer();
             SetNativeControl(container);
         }
 
@@ -46,10 +46,22 @@ namespace TwinTechsForms.UWP.Controls
 
             var pageRenderer = Platform.GetRenderer(newPageToDisplay);
 
-            //newPageToDisplay.ConvertPageToUIElement(this);
+
+            var parentPage = Element.GetParentPage();
+            var parentPageRenderer = Platform.GetRenderer(parentPage);
+
+            Control.ParentFrameworkElement = parentPageRenderer.ContainerElement;
+
+            // 1/12: idea
+            //Control.FrameworkElement = Frame
+            Control.PageFrame = new Windows.UI.Xaml.Controls.Frame();
+
+            //var page = parentContainer.Content as Windows.UI.Xaml.Controls.Page;
+
+            //newPageToDisplay.ConvertPageToUIElement(this); // looks like this isn't available on UWP
 
             //var temp = Window.Current.Content as Frame;
-            var temp = Window.Current.Content as Windows.UI.Xaml.Controls.Frame;
+
         }
     }
 }

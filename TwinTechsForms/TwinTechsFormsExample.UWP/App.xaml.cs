@@ -57,6 +57,7 @@ namespace TwinTechsFormsExample.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
+                // TODO: test this on Release build w/o. I'm pretty sure it's needed
                 var rendererAssemblies = new[]
                 {
                     typeof(TwinTechsForms.UWP.Controls.PageViewContainerRenderer).GetTypeInfo().Assembly
