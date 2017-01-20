@@ -45,9 +45,25 @@ namespace TwinTechsForms.UWP
 
             try
             {
-                var container = new Canvas { Style = (Windows.UI.Xaml.Style)Windows.UI.Xaml.Application.Current.Resources["RootContainerStyle"] };
-                _pageFrame.Content = container;
-                container.Children.Add(ParentFrameworkElement);  // No installed components were detected. Element is already the child of another element.
+                var frameParent = base.Frame; // this is null here
+
+
+                //var container = new Canvas { Style = (Windows.UI.Xaml.Style)Windows.UI.Xaml.Application.Current.Resources["RootContainerStyle"] };
+                //_pageFrame.Content = container;
+                //container.Children.Add(ParentFrameworkElement);  // No installed components were detected. Element is already the child of another element.
+
+                
+
+                var container = new Windows.UI.Xaml.Controls.Canvas { Style = (Windows.UI.Xaml.Style)Windows.UI.Xaml.Application.Current.Resources["RootContainerStyle"] };
+                container.Children.Add(PageFrame);
+                PageFrame.Content = container;
+
+
+                Window.Current.Content = PageFrame;
+
+
+                //Frame.Content = container;  // How do I set the content of this Frame? Or make this Frame not null?
+
             }
             catch (Exception ex)
             {

@@ -47,20 +47,26 @@ namespace TwinTechsForms.UWP.Controls
             var pageRenderer = Platform.GetRenderer(newPageToDisplay);
 
 
-            var parentPage = Element.GetParentPage();
-            var parentPageRenderer = Platform.GetRenderer(parentPage);
 
-            Control.ParentFrameworkElement = parentPageRenderer.ContainerElement;
+            var parentPage = Element.GetParentPage();
+            var parentPageRenderer = Platform.GetRenderer(parentPage) as IVisualElementRenderer; // type: Xamarin.Forms.Platform.UWP.IVisualElementRenderer {Xamarin.Forms.Platform.UWP.PageRenderer}
+
+            var prContElement = parentPageRenderer.ContainerElement; // type: Windows.UI.Xaml.FrameworkElement {Xamarin.Forms.Platform.UWP.PageRenderer}
+            var prElement = parentPageRenderer.Element; // type: Xamarin.Forms.VisualElement { TwinTechs.Example.PageInPage.PageInPageSample}
+
+
+
+            Control.ParentFrameworkElement = parentPageRenderer.ContainerElement; // .ContainerElement is a Windows.UI.Xaml.FrameworkElement
+            Control.PageFrame = new Windows.UI.Xaml.Controls.Frame { Content = new Windows.UI.Xaml.Controls.TextBlock { Text = "Test test test test test" } };
+
 
             // 1/12: idea
             //Control.FrameworkElement = Frame
-            Control.PageFrame = new Windows.UI.Xaml.Controls.Frame();
+            //Control.PageFrame = new Windows.UI.Xaml.Controls.Frame();
+            //Control.PageFrame.Content = new Windows.UI.Xaml.Controls.TextBox { Text = "test!" };
 
-            //var page = parentContainer.Content as Windows.UI.Xaml.Controls.Page;
 
-            //newPageToDisplay.ConvertPageToUIElement(this); // looks like this isn't available on UWP
-
-            //var temp = Window.Current.Content as Frame;
+            
 
         }
     }

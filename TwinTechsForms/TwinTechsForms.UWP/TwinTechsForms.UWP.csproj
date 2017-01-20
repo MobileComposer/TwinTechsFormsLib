@@ -107,7 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrameContainer.cs" />
+    <Compile Include="FrameworkElementContainer.cs" />
     <Compile Include="PageViewContainerRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\TwinTechsForms.UWP.rd.xml" />
