@@ -10,94 +10,80 @@ using Android.App;
 using Android;
 using System.Reflection;
 
-[assembly: ExportRenderer (typeof(PageViewContainer), typeof(PageViewContainerRenderer))]
-namespace TwinTechs.Droid.Controls
-{
-	public class PageViewContainerRenderer : ViewRenderer<PageViewContainer,Android.Views.View>
-	{
-		public PageViewContainerRenderer ()
-		{
-			Console.WriteLine ("+++LOADED");
-		}
+[assembly: ExportRenderer ( typeof ( PageViewContainer ), typeof ( PageViewContainerRenderer ) )]
+namespace TwinTechs.Droid.Controls {
+	public class PageViewContainerRenderer : ViewRenderer<PageViewContainer, Android.Views.View> {
 
-		Page _currentPage;
+		private Page _currentPage;
+		private bool _contentNeedsLayout;
 
-		protected override void OnElementChanged (ElementChangedEventArgs<PageViewContainer> e)
-		{
-			base.OnElementChanged (e);
+		// We must have this method or else the Xamarin build system will remove code that it thinks is unused
+		// https://forums.xamarin.com/discussion/comment/198852/%23Comment_198852
+		public new static void Init ( ) { }
+
+		protected override void OnElementChanged ( ElementChangedEventArgs<PageViewContainer> e ) {
+			base.OnElementChanged ( e );
 			var pageViewContainer = e.NewElement as PageViewContainer;
 			if (e.NewElement != null) {
-				ChangePage (e.NewElement.Content);
-			} else {
-				ChangePage (null);
+				ChangePage ( e.NewElement.Content );
 			}
-
+			else {
+				ChangePage ( null );
+			}
 		}
 
-		protected override void OnElementPropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged (sender, e);
+		protected override void OnElementPropertyChanged ( object sender, System.ComponentModel.PropertyChangedEventArgs e ) {
+			base.OnElementPropertyChanged ( sender, e );
 			if (e.PropertyName == "Content") {
-				ChangePage (Element.Content);
+				ChangePage ( Element.Content );
 			}
 		}
 
-		bool _contentNeedsLayout;
-
-		protected override void OnLayout (bool changed, int l, int t, int r, int b)
-		{
-			base.OnLayout (changed, l, t, r, b);
-			if ((changed || _contentNeedsLayout) && this.Control != null) {
+		protected override void OnLayout ( bool changed, int l, int t, int r, int b ) {
+			base.OnLayout ( changed, l, t, r, b );
+			if (( changed || _contentNeedsLayout ) && this.Control != null) {
 				if (_currentPage != null) {
-					_currentPage.Layout (new Rectangle (0, 0, Element.Width, Element.Height));
+					_currentPage.Layout ( new Rectangle ( 0, 0, Element.Width, Element.Height ) );
 				}
-				var msw = MeasureSpec.MakeMeasureSpec (r - l, MeasureSpecMode.Exactly);
-				var msh = MeasureSpec.MakeMeasureSpec (b - t, MeasureSpecMode.Exactly);
-				this.Control.Measure (msw, msh);
-				this.Control.Layout (0, 0, r, b);
+				var msw = MeasureSpec.MakeMeasureSpec ( r - l, MeasureSpecMode.Exactly );
+				var msh = MeasureSpec.MakeMeasureSpec ( b - t, MeasureSpecMode.Exactly );
+				this.Control.Measure ( msw, msh );
+				this.Control.Layout ( 0, 0, r, b );
 				_contentNeedsLayout = false;
 			}
 		}
 
-		private int ConvertPixelsToDp (float pixelValue)
-		{
-			var dp = (int)((pixelValue) / Resources.DisplayMetrics.Density);
-			return dp;
-		}
-
-
-		void ChangePage (Page page)
-		{
+		private void ChangePage ( Page page ) {
 
 			//TODO handle current page
 			if (page != null) {
-				var parentPage = Element.GetParentPage ();
+				var parentPage = Element.GetParentPage ( );
 				page.Parent = parentPage;
 
-				var existingRenderer = page.GetRenderer ();
+				var existingRenderer = page.GetRenderer ( );
 				if (existingRenderer == null) {
-					var renderer = RendererFactory.GetRenderer (page);
-					page.SetRenderer (renderer);
-					existingRenderer = page.GetRenderer ();
+					var renderer = Platform.CreateRenderer ( page );
+					page.SetRenderer ( renderer );
+					existingRenderer = page.GetRenderer ( );
 				}
 				_contentNeedsLayout = true;
-				SetNativeControl (existingRenderer.ViewGroup);
-				Invalidate ();
+				SetNativeControl ( existingRenderer.ViewGroup );
+				Invalidate ( );
 				//TODO update the page
 				_currentPage = page;
-			} else {
+			}
+			else {
 				//TODO - update the page
 				_currentPage = null;
 			}
 
 			if (_currentPage == null) {
 				//have to set somethign for android not to get pissy
-				var view = new Android.Views.View (this.Context);
-				view.SetBackgroundColor (Element.BackgroundColor.ToAndroid ());
-				SetNativeControl (view);
+				var view = new Android.Views.View ( this.Context );
+				view.SetBackgroundColor ( Element.BackgroundColor.ToAndroid ( ) );
+				SetNativeControl ( view );
 			}
 		}
 
 	}
 }
-

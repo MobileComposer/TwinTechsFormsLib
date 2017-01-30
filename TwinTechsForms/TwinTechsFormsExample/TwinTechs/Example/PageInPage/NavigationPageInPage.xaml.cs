@@ -39,7 +39,6 @@ namespace TwinTechs.Example.PageInPage
 			var contentPage = new ContentPage () {
 				Content = new StackLayout () {
 					BackgroundColor = backgroundColor,
-					VerticalOptions = LayoutOptions.Fill,
 					Children = {
 						new Label () {
 							Text = "page " + _index,
