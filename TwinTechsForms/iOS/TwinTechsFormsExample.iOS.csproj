@@ -27,7 +27,7 @@
     <MtouchI18n>
     </MtouchI18n>
     <LangVersion>6</LangVersion>
-    <MtouchExtraArgs>-gcc_flags "-force_load /Applications/Reveal.app/Contents/SharedSupport/iOS-Libraries/Reveal.framework/Versions/A/Reveal -ObjC -framework QuartzCore -framework CFNetwork"</MtouchExtraArgs>
+    <MtouchExtraArgs>--framework:./RevealApp/RevealServer.framework</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -63,12 +63,13 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Distribution: george Cook (R79QB763PJ)</CodesignKey>
+    <CodesignKey>iPhone Developer: Adam Zucchi (7U48P63E46)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchI18n>
     </MtouchI18n>
     <LangVersion>6</LangVersion>
+    <CodesignProvision>f3bb5911-ba14-40ce-aea4-ef88ea50d5c9</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -115,6 +116,13 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
+    <None Include="RevealApp\RevealServer.framework\Info.plist" />
+    <None Include="RevealApp\RevealServer.framework\RevealServer" />
+    <None Include="RevealApp\RevealServer.framework\Headers\RevealServer.h" />
+    <None Include="RevealApp\RevealServer.framework\Modules\module.modulemap" />
+    <None Include="RevealApp\RevealServer.framework\Scripts\copy_and_codesign_revealserver.sh" />
+    <None Include="RevealApp\RevealServer.framework\_CodeSignature\CodeResources" />
+    <None Include="RevealApp\Reveal" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -161,5 +169,8 @@
       <Version>3.7.1.4</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RevealApp\" />
   </ItemGroup>
 </Project>

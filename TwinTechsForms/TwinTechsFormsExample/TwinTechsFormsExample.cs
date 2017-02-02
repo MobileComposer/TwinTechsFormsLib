@@ -15,7 +15,6 @@ namespace TwinTechs
 		private StackLayout _tabStackLayout;
 		private PageViewContainer _pageViewContainer;
 
-
 		private BoxView _box1;
 		private NavigationPage _navPage1;
 		private MyPage _contentPage1;
@@ -76,6 +75,8 @@ namespace TwinTechs
 				Content = _grid
 			};
 
+			HandleBox1Tapped ( );
+
 			MainPage = _mainContentPage;
 
 			// The root page of your application
@@ -89,15 +90,15 @@ namespace TwinTechs
 			return tapGestureRecognizer;
 		}
 
-		private async void HandleBox1Tapped( object sender, EventArgs e ) {
+		private async void HandleBox1Tapped( object sender = null, EventArgs e = null ) {
 
 			System.Diagnostics.Debug.WriteLine ( "App.HandleBox1Tapped()" );
 
 			if (_navPage1 == null) {
 
-				_contentPage1 = new MyPage ( );
+				_contentPage1 = new MyPage ( 0 );
 
-				_currentNavigationPage = _navPage1 = new NavigationPage ( );
+				_currentNavigationPage = _navPage1 = new NavigationPage { Title = "Nav 1" };
 
 				await _navPage1.PushAsync ( _contentPage1 );
 			}
@@ -121,9 +122,9 @@ namespace TwinTechs
 
 			if (_navPage2 == null) {
 
-				_contentPage2 = new MyPage ( );
+				_contentPage2 = new MyPage ( 0 );
 
-				_currentNavigationPage = _navPage2 = new NavigationPage ( );
+				_currentNavigationPage = _navPage2 = new NavigationPage { Title = "Nav 2" };
 
 				await _navPage2.PushAsync ( _contentPage2 );
 			}

@@ -7,6 +7,7 @@ using TwinTechs.Extensions;
 using UIKit;
 using TwinTechs.Controls;
 using System.Diagnostics;
+using Foundation;
 
 [assembly: ExportRenderer(typeof(PageViewContainer), typeof(PageViewContainerRenderer))]
 namespace TwinTechs.Ios.Controls
@@ -39,16 +40,12 @@ namespace TwinTechs.Ios.Controls
 		protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
+
 			if (e.PropertyName == "Content" || e.PropertyName == "Renderer")
 			{
-				// original line
-				//Device.BeginInvokeOnMainThread(() => ChangePage(Element != null ? Element.Content : null));
-
 				// Don't bother to chage the page if the PVC Content property doesn't have a page in it
 				if (Element?.Content != null)
 				{
-					//ChangePage(Element.Content);
-
 					// We must call this when Element.Content is a NavigationPage otherwise Platform.GetRenderer(parentPage) will return null in ChangePage()
 					Device.BeginInvokeOnMainThread(() => ChangePage(Element.Content));
 				}
@@ -57,11 +54,8 @@ namespace TwinTechs.Ios.Controls
 
 		Page _initializedPage; // is this necessary at all?
 
-		void ChangePage(Page newPageToDisplay)
+		private void ChangePage(Page newPageToDisplay)
 		{
-			//if (newPageToDisplay != null)
-			//{
-
 			newPageToDisplay.Parent = Element.GetParentPage(); // find a Parent for this homeless page
 
 			// 1/4: old way - don't use this
@@ -91,14 +85,8 @@ namespace TwinTechs.Ios.Controls
 
 			_initializedPage = newPageToDisplay; // not sure why they're doing this
 
-			//}
-			//else
-			//{
-			//	if (Control != null) //this seems unnecessary.
-			//	{
-			//		Control.ViewController = null;
-			//	}
-			//}
+			//NEED TO GET THE LAYOUT ADJUSTED AFTER A PAGE CHANGE
+			LayoutSubviews ( );
 		}
 
 		public override void LayoutSubviews()
@@ -111,8 +99,5 @@ namespace TwinTechs.Ios.Controls
 				page.Layout(new Rectangle(0, 0, Bounds.Width, Bounds.Height));
 			}
 		}
-
-
 	}
 }
-

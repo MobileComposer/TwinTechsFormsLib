@@ -38,51 +38,38 @@ namespace TwinTechs.Ios.Controls
 			}
 		}
 
-		void AddViewController()
+		private void AddViewController()
 		{
-			if (ParentViewController == null)
-				throw new Exception("No Parent View controller was found");
+			if (ParentViewController == null) {
+				throw new Exception ( "No Parent View controller was found" );
+			}
+			
+			CGRect rect = new CGRect ( 0, 0, Frame.Width, Frame.Height );
 
-			Debug.WriteLine("vc.v is " + _viewController.View);
+			this.Bounds = rect;
+			this.Frame = rect;
+
+			ParentViewController.View.Frame = rect;
+			ParentViewController.View.Bounds = rect;
+
+			_viewController.View.Frame = rect;
+			_viewController.View.Bounds = rect;
 
 			ParentViewController.AddChildViewController(_viewController); // Parent the new ViewController.  This is the new VC of the new Page to be displayed.
+
 			AddSubview(_viewController.View); // add the new view as a nested view of this UIView
 
-			_viewController.View.Frame = Bounds; // reassign the frame to match the bounds of this UIView.  Set the frame property of the SubView in order to set its position and size within the parent.
 			_viewController.DidMoveToParentViewController(ParentViewController);
-
 		}
 
-        void RemoveCurrentViewController()
+        private void RemoveCurrentViewController()
         {
-            if (ViewController != null) // TODO: use field instead
+            if (_viewController != null)
             {
-                ViewController.WillMoveToParentViewController(null); // Called just before the view controller is added or removed from a container view controller.
-                ViewController.View.RemoveFromSuperview();
-                ViewController.RemoveFromParentViewController();
+                _viewController.WillMoveToParentViewController(null); // Called just before the view controller is added or removed from a container view controller.
+                _viewController.View.RemoveFromSuperview();
+                _viewController.RemoveFromParentViewController();
             }
         }
-
-        #region lifecycle
-
-        public override void LayoutSubviews()
-		{
-			base.LayoutSubviews();
-
-			//hack to fix sizing of children when changing orientation
-			if (ViewController != null && ViewController.View.Subviews.Length > 0)
-			{
-				foreach (UIView view in ViewController.View.Subviews)
-				{
-					view.Frame = Bounds;
-				}
-			}
-			//			if (ViewController != null) {
-			//				ViewController.View.Frame = Bounds;
-			//			}
-		}
-
-		#endregion
 	}
 }
-

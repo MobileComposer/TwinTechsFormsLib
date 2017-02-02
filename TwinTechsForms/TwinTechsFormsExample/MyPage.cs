@@ -5,11 +5,17 @@ namespace TwinTechs {
 
 	public class MyPage : ContentPage {
 
+		private int _pageIndex;
+
 		private StackLayout _buttonStackLayout;
 		private Button _backButton;
 		private Button _nextButton;
 
-		public MyPage ( ) {
+		public MyPage ( int pageIndex ) {
+
+			_pageIndex = pageIndex;
+
+			Title = "Page " + pageIndex;
 
 			BackgroundColor = Color.FromHex ( getRandColor ( ) );
 
@@ -25,8 +31,9 @@ namespace TwinTechs {
 
 			_buttonStackLayout = new StackLayout {
 				Orientation = StackOrientation.Vertical,
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.Center,
+				Padding = 20,
+				//HorizontalOptions = LayoutOptions.Center,
+				//VerticalOptions = LayoutOptions.Center,
 				Children = { _backButton, _nextButton }
 			};
 
@@ -40,7 +47,7 @@ namespace TwinTechs {
 
 		private async void HandleNextButtonClicked ( object sender, EventArgs e ) {
 			
-			await App.CurrentNavigationPage.PushAsync ( new MyPage ( ) );
+			await App.CurrentNavigationPage.PushAsync ( new MyPage ( ++_pageIndex ) );
 		}
 
 		private string getRandColor ( ) {
