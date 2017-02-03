@@ -17,11 +17,12 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using TwinTechs.Controls;
 using TwinTechs.Droid.Controls;
+using Xamarin.Forms.Platform.Android;
 
 namespace TwinTechsFormsExample.Droid
 {
-	[Activity (Label = "TwinTechsFormsExample.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+	[Activity (Label = "TwinTechsFormsExample.Droid", Icon = "@drawable/icon", MainLauncher = true, Theme = "@style/MyTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	public class MainActivity : FormsAppCompatActivity
 	{
 		DummyIncludes _dummyIncludes;
 		GestureTouchDispatcher _gestureTouchDispatcher;
