@@ -84,8 +84,16 @@ namespace TwinTechsFormsExample.UWP
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
-                // Ensure the current window is active
-                Window.Current.Activate();
+
+                try
+                {
+                    // Ensure the current window is active
+                    Window.Current.Activate();
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
         }
 
