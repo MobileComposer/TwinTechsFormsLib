@@ -1,61 +1,73 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace TwinTechs {
+namespace TwinTechs
+{
 
-	public class MyPage : ContentPage {
+    public class MyPage : ContentPage
+    {
+        private int _pageIndex;
 
-		private int _pageIndex;
+        private StackLayout _buttonStackLayout;
+        private Button _backButton;
+        private Button _nextButton;
 
-		private StackLayout _buttonStackLayout;
-		private Button _backButton;
-		private Button _nextButton;
+        public MyPage(int pageIndex)
+        {
+            _pageIndex = pageIndex;
 
-		public MyPage ( int pageIndex ) {
+            Title = "MyPage #" + pageIndex;
 
-			_pageIndex = pageIndex;
+            BackgroundColor = Color.FromHex(GetRandColor());
 
-			Title = "Page " + pageIndex;
+            _backButton = new Button
+            {
+                Text = "GO BACK!",
+                //WidthRequest = 100, // testing these to see if it makes this control appear on UWP
+                //HeightRequest = 50,
+                //HorizontalOptions = LayoutOptions.CenterAndExpand
+            };
+            _backButton.Clicked += HandleBackButtonClicked;
 
-			BackgroundColor = Color.FromHex ( getRandColor ( ) );
+            _nextButton = new Button
+            {
+                Text = "CREATE NEW PAGE!",
+                //WidthRequest = 200, // testing these to see if it makes this control appear on UWP
+                //HeightRequest = 100,
+                //HorizontalOptions = LayoutOptions.CenterAndExpand
+            };
+            _nextButton.Clicked += HandleNextButtonClicked;
 
-			_backButton = new Button {
-				Text = "GO BACK!",
-			};
-			_backButton.Clicked += HandleBackButtonClicked;
+            _buttonStackLayout = new StackLayout
+            {
+                Orientation = StackOrientation.Vertical,
+                Padding = 20,
+                //HorizontalOptions = LayoutOptions.Center,
+                //VerticalOptions = LayoutOptions.Center,
 
-			_nextButton = new Button {
-				Text = "CREATE NEW PAGE!",
-			};
-			_nextButton.Clicked += HandleNextButtonClicked;
+                Children = { _backButton, _nextButton }
+            };
 
-			_buttonStackLayout = new StackLayout {
-				Orientation = StackOrientation.Vertical,
-				Padding = 20,
-				//HorizontalOptions = LayoutOptions.Center,
-				//VerticalOptions = LayoutOptions.Center,
-				Children = { _backButton, _nextButton }
-			};
+            Content = _buttonStackLayout;
+        }
 
-			Content = _buttonStackLayout;
-		}
+        private async void HandleBackButtonClicked(Object sender, EventArgs e)
+        {
+            await App.CurrentNavigationPage.PopAsync(true);
+        }
 
-		private async void HandleBackButtonClicked( Object sender, EventArgs e ) {
+        private async void HandleNextButtonClicked(object sender, EventArgs e)
+        {
+            await App.CurrentNavigationPage.PushAsync(new MyPage(++_pageIndex));
+        }
 
-			await App.CurrentNavigationPage.PopAsync ( true );
-		}
-
-		private async void HandleNextButtonClicked ( object sender, EventArgs e ) {
-			
-			await App.CurrentNavigationPage.PushAsync ( new MyPage ( ++_pageIndex ) );
-		}
-
-		private string getRandColor ( ) {
-			Random rnd = new Random ( );
-			string hexOutput = String.Format ( "{0:X}", rnd.Next ( 0, 0xFFFFFF ) );
-			while (hexOutput.Length < 6)
-				hexOutput = "0" + hexOutput;
-			return hexOutput;
-		}
-	}
+        private string GetRandColor()
+        {
+            Random rnd = new Random();
+            string hexOutput = String.Format("{0:X}", rnd.Next(0, 0xFFFFFF));
+            while (hexOutput.Length < 6)
+                hexOutput = "0" + hexOutput;
+            return hexOutput;
+        }
+    }
 }

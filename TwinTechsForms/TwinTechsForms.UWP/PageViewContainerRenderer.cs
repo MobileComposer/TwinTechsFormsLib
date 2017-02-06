@@ -49,50 +49,49 @@ namespace TwinTechsForms.UWP.Controls
             if (e.PropertyName == "Content" || e.PropertyName == "Renderer")
             {
                 if (Element?.Content != null)
-                    //ChangePage(Element.Content);
-                    // We must do this this on the main thread when Element.Content is a NavigationPage
-                    Device.BeginInvokeOnMainThread(() => ChangePage(Element.Content));
+                    Device.BeginInvokeOnMainThread(() => ChangePage(Element.Content)); // We must do this this on the main thread when Element.Content is a NavigationPage
             }
         }
 
         private void ChangePage(Page pvcPageToDisplay)
         {
             var parentPage = Element.GetParentPage(); // this is the _mainContentPage of the App class
-            pvcPageToDisplay.Parent = parentPage; // find a Parent page for this homeless page.  
-
-            var pgr = pvcPageToDisplay.GetOrCreateRenderer();
-
-
-            var pageRenderer = Platform.GetRenderer(pvcPageToDisplay); // this will be null the first time, because it hasn't been rendered yet
+            pvcPageToDisplay.Parent = parentPage; // give this homeless page a Parent.
 
             // Get the renderer of _mainContentPage, the parent page
             var parentPageRenderer = Platform.GetRenderer(parentPage);// as IVisualElementRenderer; // type: Xamarin.Forms.Platform.UWP.IVisualElementRenderer {Xamarin.Forms.Platform.UWP.PageRenderer}
 
             if (parentPageRenderer != null)
             {
-                // goal: get the frame of _mainContentPage Windows.UI.Xaml.Controls.Page
-
                 try
                 {
-                    var pageFrame = new Windows.UI.Xaml.Controls.Frame() { Background = new SolidColorBrush(Colors.Orange) };
-                    Control.Content = pageFrame;
+                    // show a frame
+                    //var pageFrame = new Windows.UI.Xaml.Controls.Frame() { Background = new SolidColorBrush(Colors.Orange) };
+                    //Control.Content = pageFrame;
                     //Control.Frame // this is null
-                    var height = windowsPage.Height;
-                    var width = windowsPage.Width;
+                    //pageFrame.Navigate(windowsPage.GetType()); // add the Page to this frame
 
+                    var pageRenderer = Platform.GetRenderer(pvcPageToDisplay); // this is null, because it hasn't been rendered yet
 
-                    pageFrame.Navigate(windowsPage.GetType()); // add the Page to this frame
+                    var pgr = pvcPageToDisplay.GetOrCreateRenderer(); // this will create on for it before it's displayed
+                    var uwpPageControl = pgr.ContainerElement as Xamarin.Forms.Platform.UWP.PageControl; // ContainerElement is a Xamarin.Forms.Platform.UWP.PageControl
+                    Control.Content = uwpPageControl;
+
+                    // 2/6 Issue: why aren't the controls on these pages visible?
+
+                    //var h = uwpPageControl.Height; // NaN
+                    //var h = uwpPageControl.ContentHeight // 0.0
+                    //var w = uwpPageControl.Width;  // NaN
+                    //var w = uwpPageControl.ContentWidth; // 0.0
+                    
+                    //var bounds = uwpPageControl.
                 }
                 catch (Exception ex)
                 {
 
                 }
-
-                //Windows.UI.Xaml.Window.Current.Content = frame;
             }
-
         }
-
 
         protected override Windows.Foundation.Size ArrangeOverride(Windows.Foundation.Size finalSize)
         {
