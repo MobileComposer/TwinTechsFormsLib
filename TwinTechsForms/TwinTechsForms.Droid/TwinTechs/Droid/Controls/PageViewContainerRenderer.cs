@@ -69,6 +69,8 @@ namespace TwinTechs.Droid.Controls {
 				this.Control.Measure ( msw, msh );
 				this.Control.Layout ( 0, 0, r, b );
 				_contentNeedsLayout = false;
+
+				OnLayout ( false, l, t, r, b );
 			}
 		}
 
