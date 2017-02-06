@@ -84,7 +84,7 @@ namespace TwinTechs
                 Content = _grid
             };
 
-            HandleBox1Tapped();
+            HandleBox1Tapped(); // start app displaying the navigation page for tab #1
 
             MainPage = _mainContentPage;
 
@@ -107,7 +107,10 @@ namespace TwinTechs
             {
                 _contentPage1 = new MyPage(0);
 
-                _currentNavigationPage = _navPage1 = new NavigationPage { Title = "Nav 1" };
+                _currentNavigationPage = _navPage1 = new NavigationPage
+                {
+                    Title = "Nav 1",
+                };
 
                 await _navPage1.PushAsync(_contentPage1);
             }
@@ -133,7 +136,12 @@ namespace TwinTechs
             if (_navPage2 == null)
             {
                 _contentPage2 = new MyPage(0);
-                _currentNavigationPage = _navPage2 = new NavigationPage { Title = "Nav 2" };
+
+                _currentNavigationPage = _navPage2 = new NavigationPage
+                {
+                    Title = "Nav 2",
+                };
+
                 await _navPage2.PushAsync(_contentPage2);
             }
             else
