@@ -16,19 +16,25 @@ namespace TwinTechs
         private PageViewContainer _pageViewContainer;
 
         private BoxView _box1;
-        private NavigationPage _navPage1;
+        private MyNavigationPage _navPage1;
         private MyPage _contentPage1;
 
         private BoxView _box2;
-        private NavigationPage _navPage2;
+        private MyNavigationPage _navPage2;
         private MyPage _contentPage2;
 
-        private static NavigationPage _currentNavigationPage;
-        public static NavigationPage CurrentNavigationPage
+        private static MyNavigationPage _currentNavigationPage;
+        public static MyNavigationPage CurrentNavigationPage
         {
             get { return _currentNavigationPage; }
             set { _currentNavigationPage = value; }
         }
+
+		private static IBack _appBack;
+		public static IBack AppBack {
+			get { return _appBack; }
+			set { _appBack = value; }
+		}
 
         public App()
         {
@@ -86,11 +92,18 @@ namespace TwinTechs
 
             HandleBox1Tapped();
 
+			_appBack.AppBackPressed += HandleAppBack;
+
             MainPage = _mainContentPage;
 
             // The root page of your application
             //MainPage = new NavigationPage ( new SampleMenu ( ) );
         }
+
+		private void HandleAppBack( object sender, EventArgs e ) {
+
+			_currentNavigationPage.SendBackButtonPressed ( );
+		}
 
         private TapGestureRecognizer CreateBoxView1Tap()
         {
@@ -107,7 +120,7 @@ namespace TwinTechs
             {
                 _contentPage1 = new MyPage(0);
 
-                _currentNavigationPage = _navPage1 = new NavigationPage { Title = "Nav 1" };
+                _currentNavigationPage = _navPage1 = new MyNavigationPage { Title = "Nav 1" };
 
                 await _navPage1.PushAsync(_contentPage1);
             }
@@ -133,7 +146,7 @@ namespace TwinTechs
             if (_navPage2 == null)
             {
                 _contentPage2 = new MyPage(0);
-                _currentNavigationPage = _navPage2 = new NavigationPage { Title = "Nav 2" };
+                _currentNavigationPage = _navPage2 = new MyNavigationPage { Title = "Nav 2" };
                 await _navPage2.PushAsync(_contentPage2);
             }
             else
