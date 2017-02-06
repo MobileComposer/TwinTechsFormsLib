@@ -8682,6 +8682,9 @@ namespace TwinTechsFormsExample.Droid
 			// aapt resource value: 0x7f070093
 			public const int Animation_AppCompat_DropDownUp = 2131165331;
 			
+			// aapt resource value: 0x7f070146
+			public const int AppCompatDialogStyle = 2131165510;
+			
 			// aapt resource value: 0x7f070094
 			public const int Base_AlertDialog_AppCompat = 2131165332;
 			
@@ -9107,6 +9110,12 @@ namespace TwinTechsFormsExample.Droid
 			
 			// aapt resource value: 0x7f070006
 			public const int CardView_Light = 2131165190;
+			
+			// aapt resource value: 0x7f070144
+			public const int MyTheme = 2131165508;
+			
+			// aapt resource value: 0x7f070145
+			public const int MyTheme_Base = 2131165509;
 			
 			// aapt resource value: 0x7f070025
 			public const int Platform_AppCompat = 2131165221;
