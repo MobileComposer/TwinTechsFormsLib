@@ -92,7 +92,8 @@ namespace TwinTechs
 
             HandleBox1Tapped(); // start app displaying the navigation page for tab #1
 
-			_appBack.AppBackPressed += HandleAppBack;
+            if (_appBack != null)
+                _appBack.AppBackPressed += HandleAppBack;
 
             MainPage = _mainContentPage;
 
