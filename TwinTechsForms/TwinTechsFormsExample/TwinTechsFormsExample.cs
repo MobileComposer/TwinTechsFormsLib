@@ -120,7 +120,7 @@ namespace TwinTechs
             {
                 _contentPage1 = new MyPage(0);
 
-                _currentNavigationPage = _navPage1 = new NavigationPage
+                _currentNavigationPage = _navPage1 = new MyNavigationPage
                 {
                     Title = "Nav 1",
                 };
@@ -150,7 +150,7 @@ namespace TwinTechs
             {
                 _contentPage2 = new MyPage(0);
 
-                _currentNavigationPage = _navPage2 = new NavigationPage
+                _currentNavigationPage = _navPage2 = new MyNavigationPage
                 {
                     Title = "Nav 2",
                 };
