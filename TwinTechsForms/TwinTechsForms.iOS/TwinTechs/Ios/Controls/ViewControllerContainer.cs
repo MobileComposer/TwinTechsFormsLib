@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using CoreImage;
 
 namespace TwinTechs.Ios.Controls
 {
@@ -49,8 +50,9 @@ namespace TwinTechs.Ios.Controls
 			this.Bounds = rect;
 			this.Frame = rect;
 
-			ParentViewController.View.Frame = rect;
-			ParentViewController.View.Bounds = rect;
+			//ParentViewController.View.Frame = rect;
+			//ParentViewController.View.Bounds = rect;
+			//ParentViewController.View.BackgroundColor = new UIColor ( 1.0f, 0.0f, 0.0f, 1.0f );
 
 			_viewController.View.Frame = rect;
 			_viewController.View.Bounds = rect;
