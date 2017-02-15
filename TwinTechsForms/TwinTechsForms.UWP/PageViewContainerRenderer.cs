@@ -17,14 +17,15 @@ using Windows.Foundation;
 namespace TwinTechsForms.UWP.Controls
 {
     //public class PageViewContainerRenderer : ViewRenderer<PageViewContainer, FrameworkElementContainer>
+    //public class PageViewContainerRenderer : ViewRenderer<PageViewContainer, Windows.UI.Xaml.Controls.Frame>
     public class PageViewContainerRenderer : ViewRenderer<PageViewContainer, Windows.UI.Xaml.Controls.Page> // keep things simple for now
     {
         public PageViewContainerRenderer() { }
 
         public static void Init() { }
 
-
         Windows.UI.Xaml.Controls.Page windowsPage;
+        //Windows.UI.Xaml.Controls.Frame windowsFrame;
 
         protected override void OnElementChanged(ElementChangedEventArgs<PageViewContainer> e)
         {
@@ -34,11 +35,15 @@ namespace TwinTechsForms.UWP.Controls
             {
                 //var container = new FrameworkElementContainer();
                 windowsPage = new Windows.UI.Xaml.Controls.Page();
-
-                var test = windowsPage.Frame; // this is null here because no Frame is hosting this page yet.
                 windowsPage.Background = new SolidColorBrush(Colors.Red);
+                //windowsFrame = new Windows.UI.Xaml.Controls.Frame();
+
+                //var test = windowsPage.Frame; // this is null here because no Frame is hosting this page yet.
+
+                //SetNativeControl(windowsFrame);
 
                 SetNativeControl(windowsPage);
+                //this.Children.Add(windowsPage); // this doesn't seem to do anything
             }
         }
 
@@ -53,10 +58,12 @@ namespace TwinTechsForms.UWP.Controls
             }
         }
 
-        private void ChangePage(Page pvcPageToDisplay)
+        private void ChangePage(Page pvcNavPageToDisplay)
         {
             var parentPage = Element.GetParentPage(); // this is the _mainContentPage of the App class
-            pvcPageToDisplay.Parent = parentPage; // give this homeless page a Parent.
+            pvcNavPageToDisplay.Parent = parentPage; // give this homeless page a Parent.
+
+            pvcNavPageToDisplay.Title = "Jabooty";
 
             // Get the renderer of _mainContentPage, the parent page
             var parentPageRenderer = Platform.GetRenderer(parentPage);// as IVisualElementRenderer; // type: Xamarin.Forms.Platform.UWP.IVisualElementRenderer {Xamarin.Forms.Platform.UWP.PageRenderer}
@@ -65,26 +72,53 @@ namespace TwinTechsForms.UWP.Controls
             {
                 try
                 {
-                    // show a frame
+                    // Try #1: Show a frame
                     //var pageFrame = new Windows.UI.Xaml.Controls.Frame() { Background = new SolidColorBrush(Colors.Orange) };
                     //Control.Content = pageFrame;
                     //Control.Frame // this is null
                     //pageFrame.Navigate(windowsPage.GetType()); // add the Page to this frame
 
-                    var pageRenderer = Platform.GetRenderer(pvcPageToDisplay); // this is null, because it hasn't been rendered yet
 
-                    var pgr = pvcPageToDisplay.GetOrCreateRenderer(); // this will create on for it before it's displayed
-                    var uwpPageControl = pgr.ContainerElement as Xamarin.Forms.Platform.UWP.PageControl; // ContainerElement is a Xamarin.Forms.Platform.UWP.PageControl
+
+
+                    // Try #2: GetOrCreate Renderer for NavPage to Disiplay, then set the Control.Content property to is ContainerElement
+                    var pageRenderer = pvcNavPageToDisplay.GetOrCreateRenderer(); // this will create on for it before it's displayed
+                    //pageRenderer.Element.HeightRequest = pageRenderer.Element.WidthRequest = 300; // this doesn't seem to do anything
+                    var uwpPageControl = pageRenderer.ContainerElement as Xamarin.Forms.Platform.UWP.PageControl; // ContainerElement is a Xamarin.Forms.Platform.UWP.PageControl
+                    Control.Name = "windowsPageControl";
+                    //var parent = Control.Parent; // this is null - is that okay?
                     Control.Content = uwpPageControl;
 
-                    // 2/6 Issue: why aren't the controls on these pages visible?
+                    var page = this.Children[0] as Windows.UI.Xaml.Controls.Page;
+                    var pageContent = page.Content;
 
-                    //var h = uwpPageControl.Height; // NaN
-                    //var h = uwpPageControl.ContentHeight // 0.0
-                    //var w = uwpPageControl.Width;  // NaN
-                    //var w = uwpPageControl.ContentWidth; // 0.0
-                    
-                    //var bounds = uwpPageControl.
+                    //Control.Frame.Navigate(uwpPageControl.GetType()); // frame is null here
+                    //Control.Height = Control.Width = 300; // this works
+                    this.ArrangeNativeChildren = true;
+                    Control.UpdateLayout();
+
+
+                    // Try #3: Use a Frame as the Control instead
+                    //var pgr = pvcNavPageToDisplay.GetOrCreateRenderer();
+                    //var element = pgr.Element; // this is the TwinTechs.MyNavigationPage, type is a Xamarin.Forms.VisualElement
+                    //var uwpPageControl = pgr.ContainerElement as Xamarin.Forms.Platform.UWP.PageControl;
+                    //Control.Content = uwpPageControl;
+                    //Control.Navigate(uwpPageControl.GetType());
+
+
+                    // Try #4: get renderer of pvcNavPageToDisplay.CurrentPage - this doesn't show anything, just the pick background color of the PVC view
+                    //var navPage = pvcNavPageToDisplay as NavigationPage;
+                    //var current = navPage.CurrentPage; // this is TwinTechs.MyPage
+                    //var contentPageRenderer = current.GetOrCreateRenderer();
+                    //var uwpPageControl = contentPageRenderer.ContainerElement as Xamarin.Forms.Platform.UWP.PageControl;
+                    //Control.Content = uwpPageControl;
+                    //Control.UpdateLayout();
+
+                    // Try #5: Use the ParentPage as the Control.Content instead  - this doesn't show anything, just the pick background color of the PVC view
+                    //var uwpPageControl = parentPageRenderer.ContainerElement as Xamarin.Forms.Platform.UWP.PageControl;
+                    //Control.Name = "windowsPageControl";
+                    //Control.Content = uwpPageControl;
+
                 }
                 catch (Exception ex)
                 {
@@ -92,6 +126,18 @@ namespace TwinTechsForms.UWP.Controls
                 }
             }
         }
+
+        //protected override Windows.Foundation.Size ArrangeOverride(Windows.Foundation.Size finalSize)
+        //{
+        //    //windowsPage.Arrange(new Windows.Foundation.Rect(0, 0, finalSize.Width, finalSize.Height));
+        //    var fs = finalSize.Width;
+        //    var fsh = finalSize.Height;
+
+
+        //    windowsPage.Arrange(new Windows.Foundation.Rect(0, 0, 500, 500));
+
+        //    return finalSize;
+        //}
 
         protected override Windows.Foundation.Size ArrangeOverride(Windows.Foundation.Size finalSize)
         {

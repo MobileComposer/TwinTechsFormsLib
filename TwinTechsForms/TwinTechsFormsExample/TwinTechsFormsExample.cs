@@ -119,7 +119,7 @@ namespace TwinTechs
 
             if (_navPage1 == null)
             {
-                _contentPage1 = new MyPage(0);
+                _contentPage1 = new MyPage(1);
 
                 _currentNavigationPage = _navPage1 = new MyNavigationPage
                 {
@@ -149,7 +149,7 @@ namespace TwinTechs
 
             if (_navPage2 == null)
             {
-                _contentPage2 = new MyPage(0);
+                _contentPage2 = new MyPage(2);
 
                 _currentNavigationPage = _navPage2 = new MyNavigationPage
                 {

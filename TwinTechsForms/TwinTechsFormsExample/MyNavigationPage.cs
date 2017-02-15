@@ -4,9 +4,9 @@ namespace TwinTechs {
 
 	public class MyNavigationPage : NavigationPage {
 
-		public MyNavigationPage ( ) {
-		
-
+		public MyNavigationPage ( )
+        {
+            BackgroundColor = Color.Olive;
 		}
 
 		protected override bool OnBackButtonPressed ( ) {

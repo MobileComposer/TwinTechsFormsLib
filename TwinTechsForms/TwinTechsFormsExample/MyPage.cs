@@ -18,34 +18,49 @@ namespace TwinTechs
 
             Title = "MyPage #" + pageIndex;
 
-            BackgroundColor = Color.FromHex(GetRandColor());
+            BackgroundColor = Color.Yellow; // Color.FromHex(GetRandColor());
 
             _backButton = new Button
             {
                 Text = "GO BACK!",
-                //WidthRequest = 100, // testing these to see if it makes this control appear on UWP
-                //HeightRequest = 50,
-                //HorizontalOptions = LayoutOptions.CenterAndExpand
+                WidthRequest = 100, // testing these to see if it makes this control appear on UWP
+                HeightRequest = 50,
+                MinimumWidthRequest = 100,
+                MinimumHeightRequest = 50,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                BackgroundColor = Color.Lime
             };
             _backButton.Clicked += HandleBackButtonClicked;
 
             _nextButton = new Button
             {
                 Text = "CREATE NEW PAGE!",
-                //WidthRequest = 200, // testing these to see if it makes this control appear on UWP
-                //HeightRequest = 100,
-                //HorizontalOptions = LayoutOptions.CenterAndExpand
+                WidthRequest = 100, // testing these to see if it makes this control appear on UWP
+                HeightRequest = 50,
+                MinimumWidthRequest = 100,
+                MinimumHeightRequest = 50,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                BackgroundColor = Color.Lime
             };
             _nextButton.Clicked += HandleNextButtonClicked;
 
+            var boxView = new BoxView { BackgroundColor = Color.Silver, WidthRequest = 300, HeightRequest = 300 };
+
             _buttonStackLayout = new StackLayout
             {
+                BackgroundColor = Color.Blue,
                 Orientation = StackOrientation.Vertical,
                 Padding = 20,
                 //HorizontalOptions = LayoutOptions.Center,
                 //VerticalOptions = LayoutOptions.Center,
 
-                Children = { _backButton, _nextButton }
+                WidthRequest = 300,
+                HeightRequest = 300,
+                MinimumWidthRequest = 300,
+                MinimumHeightRequest = 300,
+                IsClippedToBounds = false,
+
+                Children = { _backButton, _nextButton, boxView }
             };
 
             Content = _buttonStackLayout;
