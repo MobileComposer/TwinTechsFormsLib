@@ -47,7 +47,10 @@ namespace TwinTechs.Ios.Controls
 				if (Element?.Content != null)
 				{
 					// We must call this when Element.Content is a NavigationPage otherwise Platform.GetRenderer(parentPage) will return null in ChangePage()
-					Device.BeginInvokeOnMainThread(() => ChangePage(Element.Content));
+					Device.BeginInvokeOnMainThread (() => ChangePage ( Element != null ? Element.Content : null));
+				}
+				else {
+					Device.BeginInvokeOnMainThread (() => ChangePage ( null ) );
 				}
 			}
 		}
@@ -56,37 +59,43 @@ namespace TwinTechs.Ios.Controls
 
 		private void ChangePage(Page newPageToDisplay)
 		{
-			newPageToDisplay.Parent = Element.GetParentPage(); // find a Parent for this homeless page
+			if (newPageToDisplay != null) {
+				newPageToDisplay.Parent = Element.GetParentPage ( ); // find a Parent for this homeless page
 
-			// 1/4: old way - don't use this
-			//var pageRenderer = newPageToDisplay.GetRenderer();
-			var pageRenderer = Platform.GetRenderer(newPageToDisplay); // TODO: this seems strange. Page hasn't been rendered yet, so this will always be null here
+				// 1/4: old way - don't use this
+				//var pageRenderer = newPageToDisplay.GetRenderer();
+				var pageRenderer = Platform.GetRenderer ( newPageToDisplay ); // TODO: this seems strange. Page hasn't been rendered yet, so this will always be null here
 
-			UIViewController viewController = null;
-			if (pageRenderer != null && pageRenderer.ViewController != null)
-			{
-				// this is hit when navigating back from the PageInPageSample page
-				viewController = pageRenderer.ViewController;
+				UIViewController viewController = null;
+				if (pageRenderer != null && pageRenderer.ViewController != null) {
+					// this is hit when navigating back from the PageInPageSample page
+					viewController = pageRenderer.ViewController;
+				}
+				else {
+					viewController = newPageToDisplay.CreateViewController ( );
+				}
+
+				// this returns PageInPageSample again
+				var parentPage = Element.GetParentPage ( ); // TODO: Is this the only one that is needed?
+
+				//var renderer = parentPage.GetRenderer ();
+				var parentPageRenderer = Platform.GetRenderer ( parentPage );
+
+				// set properties of the ViewControllerContainer
+				Control.ParentViewController = parentPageRenderer.ViewController;
+				Control.ViewController = viewController; // there is some logic here that happens when this is set
+
+				_initializedPage = newPageToDisplay; // not sure why they're doing this
+
+				//NEED TO GET THE LAYOUT ADJUSTED AFTER A PAGE CHANGE
+				LayoutSubviews ( );
 			}
-			else
-			{
-				viewController = newPageToDisplay.CreateViewController();
+			else {
+
+				if (Control != null) {
+					Control.ViewController = null;
+				}
 			}
-
-			// this returns PageInPageSample again
-			var parentPage = Element.GetParentPage(); // TODO: Is this the only one that is needed?
-
-			//var renderer = parentPage.GetRenderer ();
-			var parentPageRenderer = Platform.GetRenderer(parentPage);
-
-			// set properties of the ViewControllerContainer
-			Control.ParentViewController = parentPageRenderer.ViewController;
-			Control.ViewController = viewController; // there is some logic here that happens when this is set
-
-			_initializedPage = newPageToDisplay; // not sure why they're doing this
-
-			//NEED TO GET THE LAYOUT ADJUSTED AFTER A PAGE CHANGE
-			LayoutSubviews ( );
 		}
 
 		public override void LayoutSubviews()
