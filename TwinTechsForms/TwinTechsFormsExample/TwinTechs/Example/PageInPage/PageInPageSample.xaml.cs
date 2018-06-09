@@ -3,14 +3,12 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 using TwinTechs.Controls;
-using TwinTechs.Example.FastCells;
 
 namespace TwinTechs.Example.PageInPage
 {
 	public partial class PageInPageSample : ContentPage
 	{
 		Page page1;
-		Page page2;
 		Page page3;
 
 		bool _toggleReuse;
@@ -29,14 +27,14 @@ namespace TwinTechs.Example.PageInPage
 			}
 		}
 
-		void OnPage2 (object s, EventArgs ev)
-		{
-			var page = page2 == null ? new FastSimpleCellLots () : page2;
-			PageContainer.Content = page;
-			if (_toggleReuse) {
-				page2 = page;
-			}
-		}
+		//void OnPage2 (object s, EventArgs ev)
+		//{
+		//	var page = page2 == null ? new FastSimpleCellLots () : page2;
+		//	PageContainer.Content = page;
+		//	if (_toggleReuse) {
+		//		page2 = page;
+		//	}
+		//}
 
 		void OnPage3 (object s, EventArgs ev)
 		{
@@ -52,7 +50,7 @@ namespace TwinTechs.Example.PageInPage
 			_toggleReuse = !_toggleReuse;
 			if (!_toggleReuse) {
 				page1 = null;
-				page2 = null;
+				//page2 = null;
 				page3 = null;
 			}
 			var button = s as Button;

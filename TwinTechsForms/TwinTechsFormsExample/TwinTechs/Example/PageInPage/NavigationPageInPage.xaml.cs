@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 using TwinTechs.Controls;
-using TwinTechs.Example.FastCells;
 
 namespace TwinTechs.Example.PageInPage
 {

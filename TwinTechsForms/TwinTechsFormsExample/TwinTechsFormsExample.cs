@@ -2,7 +2,6 @@
 
 using Xamarin.Forms;
 using TwinTechs.Example;
-using TwinTechs.Example.GridView;
 using TwinTechs.Controls;
 
 namespace TwinTechs
